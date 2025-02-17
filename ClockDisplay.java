@@ -18,7 +18,13 @@ public class ClockDisplay
 {
     private NumberDisplay hours;
     private NumberDisplay minutes;
-    private String displayString;    // simulates the actual display
+    private String displayString; 
+    private int currentHour;   
+    private int currentMinutes;
+    private String maridean;
+    
+    
+    // simulates the actual display
     
     /**
      * Constructor for ClockDisplay objects. This constructor 
@@ -26,8 +32,9 @@ public class ClockDisplay
      */
     public ClockDisplay()
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
+        this.maridean= new String("AM");
         updateDisplay();
     }
 
@@ -36,11 +43,15 @@ public class ClockDisplay
      * creates a new clock set at the time specified by the 
      * parameters.
      */
-    public ClockDisplay(int hour, int minute)
+    public ClockDisplay(int hour, int minute, String maridean)
     {
         hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
         setTime(hour, minute);
+        this.maridean= maridean;
+        //maridean = "am"; This is incorrect because it is being passed as a specific string
+
+        
     }
 
     /**
@@ -50,9 +61,21 @@ public class ClockDisplay
     public void timeTick()
     {
         minutes.increment();
-        if(minutes.getValue() == 0) {  // it just rolled over!
+        if(minutes.getValue() == 0) 
+        {  // it just rolled over!
             hours.increment();
         }
+        
+        if(hours.getValue()==0 )
+        {
+            if (maridean. equals ("AM"))
+            {
+                maridean="PM";
+            }
+        }
+        else 
+        
+        
         updateDisplay();
     }
 
@@ -80,21 +103,18 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
-        int hour = hours.getValue();
+       
+       
         
-        String suffix= "am";
-        if (hour > 11) 
+        
+        
+        if (currentHour==0 ) //original work am
         {
-            hour=hour-12;
-            suffix = "pm";
+            currentHour=12;
+           
+           
         }
         
-        
-        if (hour==0)
-        {
-            hour=12;
-            suffix = "pm";
-        }
-        displayString= hour + ":" + minutes.getDisplayValue() + suffix;
+        displayString= hours.getValue() + ":" + minutes.getDisplayValue() + maridean;
     }
 }
