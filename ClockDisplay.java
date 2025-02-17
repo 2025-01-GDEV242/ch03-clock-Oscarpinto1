@@ -19,8 +19,6 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString; 
-    private int currentHour;   
-    private int currentMinutes;
     private String maridean;
     
     
@@ -34,7 +32,7 @@ public class ClockDisplay
     {
         hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
-        this.maridean= new String("AM");
+        maridean= "AM";
         updateDisplay();
     }
 
@@ -47,8 +45,9 @@ public class ClockDisplay
     {
         hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
+        this.maridean= maridean.toUpperCase();
         setTime(hour, minute);
-        this.maridean= maridean;
+        
         //maridean = "am"; This is incorrect because it is being passed as a specific string
 
         
@@ -64,18 +63,15 @@ public class ClockDisplay
         if(minutes.getValue() == 0) 
         {  // it just rolled over!
             hours.increment();
-        }
+        
         
         if(hours.getValue()==0 )
+    
         {
-            if (maridean. equals ("AM"))
-            {
-                maridean="PM";
-            }
+        maridean = maridean.equals("AM") ? "PM" : "AM";
         }
-        else 
-        
-        
+       
+        }
         updateDisplay();
     }
 
@@ -85,7 +81,14 @@ public class ClockDisplay
      */
     public void setTime(int hour, int minute)
     {
-        hours.setValue(hour);
+        if (hour==12)
+        {
+            hours.setValue(0);
+        }
+        else
+        {
+            hours.setValue(hour);
+        }
         minutes.setValue(minute);
         updateDisplay();
     }
@@ -103,18 +106,18 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
+       int displayHour = hours.getValue();
        
-       
         
         
         
-        if (currentHour==0 ) //original work am
+        if (displayHour==0 ) //original work am
         {
-            currentHour=12;
+            displayHour=12;
            
            
         }
         
-        displayString= hours.getValue() + ":" + minutes.getDisplayValue() + maridean;
+        displayString= displayHour + ":" + minutes.getDisplayValue()+ "" + maridean;
     }
 }
